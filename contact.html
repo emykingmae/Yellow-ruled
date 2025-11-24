@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Yellow Ruled Paper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .paper h1 {
+            font-size: 40px;
+        }
+        .paper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .paper .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger menu button (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="paper">
+        <div class="container">
+            <h1>justinbthrift@gmail.com</h1>
+            <a href="https://www.linkedin.com/in/justinthrift/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+                <img src="images/linkedin-logo.png" alt="LinkedIn" class="linkedin-logo">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside (mobile only)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Mark active page in sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const links = document.querySelectorAll('.sidebar nav ul li a');
+            links.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Make text visible immediately (no animation)
+        document.addEventListener('DOMContentLoaded', () => {
+            const paper = document.querySelector('.paper');
+            if (!paper) return;
+
+            const elements = paper.querySelectorAll('h1, h2, p');
+            elements.forEach(el => {
+                el.style.visibility = 'visible';
+            });
+        });
+    </script>
+</body>
+</html>
+

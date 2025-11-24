@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Yellow Ruled Paper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hamburger menu button (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="paper">
+        <div class="container">
+            <h1>Hello there!</h1>
+            <h2>I'm Justin, a Senior Product Designer at <a href="https://monzo.com/" target="_blank" rel="noopener noreferrer">Monzo</a> in London.</h2>
+            <p>I'm currently rebuilding my site and sprucing it up with some of my latest work. I'm having a blast using Cursor to create this, so if you have any feedback for me, I'd love to hear it!</p>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside (mobile only)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Mark active page in sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const links = document.querySelectorAll('.sidebar nav ul li a');
+            links.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Typewriter animation for H1, H2, and p elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const paper = document.querySelector('.paper');
+            if (!paper) return;
+
+            const elements = paper.querySelectorAll('h1, h2, p');
+            if (elements.length === 0) return;
+
+            // Calculate total characters (excluding HTML tags)
+            let totalChars = 0;
+            const elementData = [];
+            
+            elements.forEach(el => {
+                // Store original HTML to preserve links
+                const originalHTML = el.innerHTML;
+                const text = el.textContent;
+                const chars = text.length;
+                totalChars += chars;
+                
+                // Parse HTML to find link positions
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = originalHTML;
+                const segments = [];
+                let textIndex = 0;
+                
+                // Walk through the DOM tree to find text and link positions
+                const walkNodes = (node, parentTextIndex) => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        const nodeText = node.textContent;
+                        if (nodeText.trim() || segments.length === 0) {
+                            segments.push({
+                                type: 'text',
+                                text: nodeText,
+                                startIndex: parentTextIndex,
+                                endIndex: parentTextIndex + nodeText.length
+                            });
+                        }
+                        return nodeText.length;
+                    } else if (node.nodeType === Node.ELEMENT_NODE) {
+                        if (node.tagName === 'A') {
+                            const linkText = node.textContent;
+                            segments.push({
+                                type: 'link',
+                                text: linkText,
+                                href: node.getAttribute('href'),
+                                target: node.getAttribute('target'),
+                                rel: node.getAttribute('rel'),
+                                startIndex: parentTextIndex,
+                                endIndex: parentTextIndex + linkText.length
+                            });
+                            return linkText.length;
+                        } else {
+                            let childIndex = parentTextIndex;
+                            Array.from(node.childNodes).forEach(child => {
+                                const length = walkNodes(child, childIndex);
+                                childIndex += length;
+                            });
+                            return childIndex - parentTextIndex;
+                        }
+                    }
+                    return 0;
+                };
+                
+                Array.from(tempDiv.childNodes).forEach(child => {
+                    textIndex += walkNodes(child, textIndex);
+                });
+                
+                elementData.push({ 
+                    element: el, 
+                    text: text, 
+                    chars: chars, 
+                    segments: segments 
+                });
+            });
+
+            if (totalChars === 0) return;
+
+            // Calculate delay per character (4000ms total / total characters)
+            const delayPerChar = 4000 / totalChars;
+
+            // Animate each element
+            elementData.forEach(({ element, text, segments }) => {
+                element.style.visibility = 'visible';
+                element.innerHTML = '';
+                
+                let charIndex = 0;
+                let segmentIndex = 0;
+                
+                const typeNext = () => {
+                    if (charIndex >= text.length) return;
+                    
+                    // Get current segment
+                    if (segmentIndex >= segments.length) return;
+                    const segment = segments[segmentIndex];
+                    
+                    // Check if we need to start a new segment
+                    if (charIndex === segment.startIndex) {
+                        if (segment.type === 'link') {
+                            // Create link element
+                            const linkEl = document.createElement('a');
+                            linkEl.href = segment.href;
+                            if (segment.target) linkEl.target = segment.target;
+                            if (segment.rel) linkEl.rel = segment.rel;
+                            element.appendChild(linkEl);
+                            
+                            // Type link text character by character
+                            let linkCharIndex = 0;
+                            const typeLinkChar = () => {
+                                if (linkCharIndex < segment.text.length) {
+                                    linkEl.textContent += segment.text[linkCharIndex];
+                                    linkCharIndex++;
+                                    charIndex++;
+                                    setTimeout(typeLinkChar, delayPerChar);
+                                } else {
+                                    segmentIndex++;
+                                    setTimeout(typeNext, delayPerChar);
+                                }
+                            };
+                            typeLinkChar();
+                        } else {
+                            // Create text node for regular text
+                            const textNode = document.createTextNode('');
+                            element.appendChild(textNode);
+                            
+                            // Type text character by character
+                            let textCharIndex = 0;
+                            const typeTextChar = () => {
+                                if (textCharIndex < segment.text.length) {
+                                    textNode.textContent += segment.text[textCharIndex];
+                                    textCharIndex++;
+                                    charIndex++;
+                                    setTimeout(typeTextChar, delayPerChar);
+                                } else {
+                                    segmentIndex++;
+                                    setTimeout(typeNext, delayPerChar);
+                                }
+                            };
+                            typeTextChar();
+                        }
+                    } else {
+                        // Shouldn't happen, but safety check
+                        charIndex++;
+                        setTimeout(typeNext, delayPerChar);
+                    }
+                };
+                
+                typeNext();
+            });
+        });
+    </script>
+</body>
+</html>

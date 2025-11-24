@@ -1,0 +1,449 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a, button {
+    cursor: pointer;
+}
+
+body {
+    background-color: #fff9c4;
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(212, 212, 212, 0.55) 23px,
+            rgba(212, 212, 212, 0.55) 24px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.02) 100%
+        );
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext x='16' y='16' font-size='24' text-anchor='middle' dominant-baseline='central' transform='rotate(180 16 16)'%3E✏️%3C/text%3E%3C/svg%3E") 16 16, auto;
+}
+
+/* Hamburger menu button (mobile only) */
+.hamburger {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background-color: rgba(255, 249, 196, 0.9);
+    border: 2px solid #333;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Sidebar navigation */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: transparent;
+    padding: 40px 20px 20px 20px;
+    z-index: 1000;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    display: inline-block;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.2s ease, font-size 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.sidebar nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 4' preserveAspectRatio='none'%3E%3Cpath d='M0,2.5 Q50,1.5 100,2.5 T200,2.5' stroke='%23dc3545' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: left center;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+.sidebar nav ul li a:hover {
+    color: #dc3545;
+    font-size: 29px;
+    transform: rotate(2deg);
+}
+
+.sidebar nav ul li a:hover::after {
+    opacity: 1;
+    animation: drawLine 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.sidebar nav ul li a.active {
+    font-weight: 600;
+    color: #333;
+}
+
+.sidebar nav ul li a.active::after {
+    opacity: 1;
+    width: 100%;
+}
+
+@keyframes drawLine {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.paper {
+    background-color: transparent;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    padding-left: 250px;
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+}
+
+.paper h1, .paper h2, .paper p {
+    visibility: hidden;
+}
+
+.paper h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 72px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+    max-width: fit-content;
+    z-index: 1;
+}
+
+.paper h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 45px;
+    font-weight: 400;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    position: relative;
+    display: table;
+    width: max-content;
+    max-width: 100%;
+}
+
+
+.paper p {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    font-weight: 300;
+    color: #626262;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Subtle highlighter effect for links in paper content */
+.paper a {
+    color: #626262;
+    text-decoration: none;
+    padding: 0 4px;
+    position: relative;
+    display: inline-block;
+    z-index: 0;
+}
+
+.paper a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    background-color: rgba(34, 197, 94, 0.25);
+    border-radius: 2px;
+    z-index: -1;
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+}
+
+.paper a:hover::before {
+    background-color: rgba(34, 197, 94, 0.35);
+}
+
+/* LinkedIn link styling */
+.paper .linkedin-link {
+    display: block;
+    margin-top: 60px;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.paper .linkedin-link::before {
+    display: none;
+}
+
+.paper .linkedin-link:hover {
+    transform: translate(2px, 2px);
+}
+
+.paper .linkedin-logo {
+    display: block;
+    height: 56px;
+    width: auto;
+}
+
+/* Red margin line */
+.paper::before {
+    content: '';
+    position: absolute;
+    left: 220px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(220, 53, 69, 0.55);
+}
+
+/* Index cards container */
+.cards-container {
+    position: relative;
+    margin-top: 40px;
+    max-width: 400px;
+    margin-left: 0;
+    min-height: 300px;
+    padding-bottom: 80px;
+}
+
+/* Index card styling */
+.index-card {
+    background-color: #fffef7;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(0, 0, 0, 0.05) 23px,
+            rgba(0, 0, 0, 0.05) 24px
+        );
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Pastel colors for each card */
+.index-card:nth-child(1) {
+    background-color: #e3f2fd; /* Baby blue */
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(0, 0, 0, 0.05) 23px,
+            rgba(0, 0, 0, 0.05) 24px
+        );
+    top: 0;
+    left: 0;
+    z-index: 3;
+    transform: rotate(-3deg);
+    --base-rotation: -3deg;
+}
+
+.index-card:nth-child(2) {
+    background-color: #c8e6c9; /* Green */
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(0, 0, 0, 0.05) 23px,
+            rgba(0, 0, 0, 0.05) 24px
+        );
+    top: 8px;
+    left: 12px;
+    z-index: 2;
+    transform: rotate(1deg);
+    --base-rotation: 1deg;
+}
+
+.index-card:nth-child(3) {
+    background-color: #fce4ec; /* Pink */
+    background-image: 
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(0, 0, 0, 0.05) 23px,
+            rgba(0, 0, 0, 0.05) 24px
+        );
+    top: 16px;
+    left: 24px;
+    z-index: 1;
+    transform: rotate(4deg);
+    --base-rotation: 4deg;
+}
+
+.index-card:hover {
+    transform: rotate(var(--base-rotation, 0deg)) scale(1.05) translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+.index-card:nth-child(1):hover {
+    transform: rotate(-3deg) scale(1.05) translateY(-5px);
+}
+
+.index-card:nth-child(2):hover {
+    transform: rotate(1deg) scale(1.05) translateY(-5px);
+}
+
+.index-card:nth-child(3):hover {
+    transform: rotate(4deg) scale(1.05) translateY(-5px);
+}
+
+.index-card h2 {
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.index-card p {
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+/* 
+ * Reusable page container utility
+ * 
+ * Usage: Wrap main content sections with <div class="container">
+ * This ensures content never runs edge-to-edge and respects safe areas.
+ * 
+ * Example:
+ *   <main>
+ *     <div class="container">
+ *       <h1>Title</h1>
+ *       <p>Content...</p>
+ *     </div>
+ *   </main>
+ */
+.container {
+    --page-pad: clamp(16px, 4vw, 40px);
+    max-width: 60rem; /* 960px */
+    margin-inline: auto;
+    padding-left: max(env(safe-area-inset-left), var(--page-pad));
+    padding-right: max(env(safe-area-inset-right), var(--page-pad));
+    width: 100%;
+}
+
+/* Section spacing utility for consistent vertical rhythm */
+.section {
+    padding-block: clamp(32px, 6vw, 96px);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .sidebar.active {
+        transform: translateX(0) rotate(-2deg);
+        opacity: 1;
+        pointer-events: auto;
+        background-color: #e3f2fd; /* Baby blue like first index card */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+        background-image: 
+            repeating-linear-gradient(
+                transparent,
+                transparent 23px,
+                rgba(0, 0, 0, 0.05) 23px,
+                rgba(0, 0, 0, 0.05) 24px
+            );
+        width: 280px;
+        padding: 40px 30px 30px 30px;
+        top: 20px;
+        left: 20px;
+        bottom: auto;
+        height: auto;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+
+    .paper {
+        padding-left: 80px;
+    }
+
+    .paper::before {
+        left: 50px;
+    }
+
+    .cards-container {
+        max-width: 100%;
+        padding-bottom: 60px;
+    }
+    
+    .index-card {
+        max-width: 100%;
+    }
+}
+
