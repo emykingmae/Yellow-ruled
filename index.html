@@ -38,9 +38,31 @@
 
     <div class="paper">
         <div class="container">
-            <h1>Hello there!</h1>
             <h2>I'm Justin, a Senior Product Designer at <a href="https://monzo.com/" target="_blank" rel="noopener noreferrer">Monzo</a> in London.</h2>
-            <p>I'm currently rebuilding my site and sprucing it up with some of my latest work. I'm having a blast using Cursor to create this, so if you have any feedback for me, I'd love to hear it!</p>
+            <p>Designer, builder, product owner. Teamwork makes the dream work.</p>
+
+            <div class="cards-stack">
+                <a class="card-link" href="case-studies/project-coming-soon.html">
+                    <div class="index-card">
+                        <h2>Projects coming soon</h2>
+                        <p>I'm actively working on some new showcases. Check back soon!.</p>
+                    </div>
+                </a>
+
+                <a class="card-link" href="case-studies/watch-this-space.html">
+                    <div class="index-card">
+                        <h2>Watch this space!</h2>
+                        <p>You're not going to want to miss this.</p>
+                    </div>
+                </a>
+
+                <a class="card-link" href="case-studies/seriously-though.html">
+                    <div class="index-card">
+                        <h2>Seriously though...</h2>
+                        <p>This is going to be so good.</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -80,7 +102,7 @@
             const paper = document.querySelector('.paper');
             if (!paper) return;
 
-            const elements = paper.querySelectorAll('h1, h2, p');
+            const elements = paper.querySelectorAll('.container > h2, .container > p');
             if (elements.length === 0) return;
 
             // Calculate total characters (excluding HTML tags)

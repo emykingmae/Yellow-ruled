@@ -195,16 +195,17 @@ body {
 }
 
 /* Subtle highlighter effect for links in paper content */
-.paper a {
-    color: #626262;
+.paper a:not(.card-link) {
+    color: #333;
     text-decoration: none;
     padding: 0 4px;
     position: relative;
     display: inline-block;
-    z-index: 0;
+    z-index: 1;
+    isolation: isolate;
 }
 
-.paper a::before {
+.paper a:not(.card-link)::before {
     content: '';
     position: absolute;
     left: 0;
@@ -218,8 +219,21 @@ body {
     pointer-events: none;
 }
 
-.paper a:hover::before {
+.paper a:not(.card-link):hover::before {
     background-color: rgba(34, 197, 94, 0.35);
+}
+
+/* Card links should behave like full-card clickable tiles */
+.paper .card-link {
+    display: block;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+}
+
+.paper .card-link::before {
+    display: none;
 }
 
 /* LinkedIn link styling */
@@ -255,10 +269,10 @@ body {
     background-color: rgba(220, 53, 69, 0.55);
 }
 
-/* Index cards container */
-.cards-container {
+/* Stacked cards (used on Home) */
+.cards-stack {
     position: relative;
-    margin-top: 40px;
+    margin-top: 72px;
     max-width: 400px;
     margin-left: 0;
     min-height: 300px;
@@ -281,13 +295,14 @@ body {
             rgba(0, 0, 0, 0.05) 23px,
             rgba(0, 0, 0, 0.05) 24px
         );
-    position: absolute;
+    position: relative;
     width: 100%;
     max-width: 400px;
 }
 
 /* Pastel colors for each card */
-.index-card:nth-child(1) {
+.cards-stack .card-link:nth-child(1) .index-card,
+.cards-grid .card-link:nth-child(1) .index-card {
     background-color: #e3f2fd; /* Baby blue */
     background-image: 
         repeating-linear-gradient(
@@ -296,14 +311,14 @@ body {
             rgba(0, 0, 0, 0.05) 23px,
             rgba(0, 0, 0, 0.05) 24px
         );
-    top: 0;
-    left: 0;
-    z-index: 3;
-    transform: rotate(-3deg);
+    --stack-top: 0;
+    --stack-left: 0;
+    --stack-z: 3;
     --base-rotation: -3deg;
 }
 
-.index-card:nth-child(2) {
+.cards-stack .card-link:nth-child(2) .index-card,
+.cards-grid .card-link:nth-child(2) .index-card {
     background-color: #c8e6c9; /* Green */
     background-image: 
         repeating-linear-gradient(
@@ -312,14 +327,14 @@ body {
             rgba(0, 0, 0, 0.05) 23px,
             rgba(0, 0, 0, 0.05) 24px
         );
-    top: 8px;
-    left: 12px;
-    z-index: 2;
-    transform: rotate(1deg);
+    --stack-top: 8px;
+    --stack-left: 12px;
+    --stack-z: 2;
     --base-rotation: 1deg;
 }
 
-.index-card:nth-child(3) {
+.cards-stack .card-link:nth-child(3) .index-card,
+.cards-grid .card-link:nth-child(3) .index-card {
     background-color: #fce4ec; /* Pink */
     background-image: 
         repeating-linear-gradient(
@@ -328,29 +343,79 @@ body {
             rgba(0, 0, 0, 0.05) 23px,
             rgba(0, 0, 0, 0.05) 24px
         );
-    top: 16px;
-    left: 24px;
-    z-index: 1;
-    transform: rotate(4deg);
+    --stack-top: 16px;
+    --stack-left: 24px;
+    --stack-z: 1;
     --base-rotation: 4deg;
 }
 
-.index-card:hover {
+.cards-stack .card-link:nth-child(4) .index-card,
+.cards-grid .card-link:nth-child(4) .index-card {
+    background-color: #fff3cd; /* Soft yellow */
+    background-image:
+        repeating-linear-gradient(
+            transparent,
+            transparent 23px,
+            rgba(0, 0, 0, 0.05) 23px,
+            rgba(0, 0, 0, 0.05) 24px
+        );
+}
+
+.cards-stack .index-card {
+    position: absolute;
+    top: var(--stack-top, 0);
+    left: var(--stack-left, 0);
+    z-index: var(--stack-z, 1);
+    transform: rotate(var(--base-rotation, 0deg));
+}
+
+.cards-stack .index-card:hover {
     transform: rotate(var(--base-rotation, 0deg)) scale(1.05) translateY(-5px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
     z-index: 10;
 }
 
-.index-card:nth-child(1):hover {
+.cards-stack .index-card h2,
+.cards-stack .index-card p,
+.cards-grid .index-card h2,
+.cards-grid .index-card p {
+    visibility: visible;
+}
+
+.cards-stack .card-link:nth-child(1) .index-card:hover {
     transform: rotate(-3deg) scale(1.05) translateY(-5px);
 }
 
-.index-card:nth-child(2):hover {
+.cards-stack .card-link:nth-child(2) .index-card:hover {
     transform: rotate(1deg) scale(1.05) translateY(-5px);
 }
 
-.index-card:nth-child(3):hover {
+.cards-stack .card-link:nth-child(3) .index-card:hover {
     transform: rotate(4deg) scale(1.05) translateY(-5px);
+}
+
+/* Grid cards (used on Projects) */
+.cards-grid {
+    margin-top: 40px;
+    max-width: 920px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.cards-grid .card-link {
+    height: 100%;
+}
+
+.cards-grid .index-card {
+    max-width: none;
+    min-height: 230px;
+    height: 100%;
+}
+
+.cards-grid .index-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .index-card h2 {
@@ -360,7 +425,7 @@ body {
 
 .index-card p {
     margin-bottom: 0;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 /* 
@@ -437,11 +502,17 @@ body {
         left: 50px;
     }
 
-    .cards-container {
+    .cards-stack {
         max-width: 100%;
         padding-bottom: 60px;
     }
-    
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 100%;
+    }
+
     .index-card {
         max-width: 100%;
     }
