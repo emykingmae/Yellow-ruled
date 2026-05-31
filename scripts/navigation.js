@@ -53,7 +53,11 @@
 
     const rotatingRole = document.getElementById("rotating-role");
     if (rotatingRole) {
-        const rawWords = rotatingRole.getAttribute("data-words") || "";
+        const mobileWords = rotatingRole.getAttribute("data-words-mobile") || "";
+        const desktopWords = rotatingRole.getAttribute("data-words") || "";
+        const rawWords = window.matchMedia("(max-width: 560px)").matches && mobileWords
+            ? mobileWords
+            : desktopWords;
         const words = rawWords
             .split(",")
             .map((word) => word.trim())
