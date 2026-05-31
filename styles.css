@@ -510,7 +510,6 @@ p {
 .rotating-role {
     color: #1481C1;
     display: inline-block;
-    min-width: 11ch;
     white-space: nowrap;
     text-align: left;
     transition: opacity 220ms ease, transform 220ms ease;
@@ -522,7 +521,7 @@ p {
     transform: translateY(0.12em);
 }
 
-.rotating-phrase {
+.lead-phrase {
     white-space: nowrap;
 }
 
