@@ -3,92 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Yellow Ruled Paper</title>
+    <title>About - Justin Thrift</title>
     <link rel="canonical" href="https://justinthrift.design/about.html">
     <script>
-        // Redirect www to non-www
-        if (window.location.hostname.startsWith('www.')) {
-            window.location.replace(window.location.href.replace('www.', ''));
+        if (window.location.hostname.startsWith("www.")) {
+            window.location.replace(window.location.href.replace("www.", ""));
         }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hamburger menu button (mobile only) -->
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    <header class="site-header">
+        <a class="brand" href="index.html">Justin Thrift</a>
 
-    <!-- Sidebar navigation -->
-    <aside class="sidebar" id="sidebar">
-        <nav>
+        <nav class="desktop-nav site-nav" aria-label="Primary">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
                 <li><a href="projects.html">Projects</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-    </aside>
 
-    <div class="paper">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="line"></span>
+        </button>
+    </header>
+
+    <nav class="mobile-nav site-nav" id="mobile-nav" aria-label="Mobile primary">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="paper">
         <div class="container">
-            <h1>My story</h1>
-            <p>I believe truly great design leads to business growth because of how we solve our customers' real problems; critically, this includes understanding the problem behind what our customers are telling us, shipping software people actually want to use, and using both qualitative & quantitative evidence to inform and measure these decisions.</p>
+            <p>I believe truly great design leads to business growth because of how we solve our customers' real problems; critically, this includes understanding the problem behind what our customers are telling us, shipping software people actually want to use, and using both qualitative and quantitative evidence to inform and measure these decisions.</p>
 
             <p>I believe good design work leads to a healthy tension. Advocating for our customers is not always a smooth process. Currently I'm working as a Senior Product Designer at Monzo, on a mission to make money work for everyone.</p>
 
-            <p>Before design, I got my start working in the trade publishing industry for various large publishers, including Penguin Random House, as a managing editor of physical and digital products. It was there I first worked with designers of all kinds — type, visual, graphic, physical — and discovered where I wanted to go next in my career.</p>
+            <p>Before design, I got my start working in the trade publishing industry for various large publishers, including Penguin Random House, as a managing editor of physical and digital products. It was there I first worked with designers of all kinds and discovered where I wanted to go next in my career.</p>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            sidebar.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside (mobile only)
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-
-        // Mark active page in sidebar
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const links = document.querySelectorAll('.sidebar nav ul li a');
-            links.forEach(link => {
-                const linkPage = link.getAttribute('href');
-                if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Make text visible immediately (no animation)
-        document.addEventListener('DOMContentLoaded', () => {
-            const paper = document.querySelector('.paper');
-            if (!paper) return;
-
-            const elements = paper.querySelectorAll('h1, h2, p');
-            elements.forEach(el => {
-                el.style.visibility = 'visible';
-            });
-        });
-    </script>
+    <script src="scripts/navigation.js"></script>
 </body>
 </html>
-

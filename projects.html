@@ -3,115 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Yellow Ruled Paper</title>
+    <title>Projects - Justin Thrift</title>
     <link rel="canonical" href="https://justinthrift.design/projects.html">
     <script>
-        // Redirect www to non-www
-        if (window.location.hostname.startsWith('www.')) {
-            window.location.replace(window.location.href.replace('www.', ''));
+        if (window.location.hostname.startsWith("www.")) {
+            window.location.replace(window.location.href.replace("www.", ""));
         }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hamburger menu button (mobile only) -->
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    <header class="site-header">
+        <a class="brand" href="index.html">Justin Thrift</a>
 
-    <!-- Sidebar navigation -->
-    <aside class="sidebar" id="sidebar">
-        <nav>
+        <nav class="desktop-nav site-nav" aria-label="Primary">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
                 <li><a href="projects.html">Projects</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-    </aside>
 
-    <div class="paper">
-        <h1>Projects</h1>
-        
-        <div class="cards-grid">
-            <a class="card-link" href="case-studies/project-coming-soon.html">
-                <div class="index-card">
-                    <h2>Projects coming soon</h2>
-                    <p>I'm actively working on some new showcases. Check back soon!.</p>
-                </div>
-            </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="line"></span>
+        </button>
+    </header>
 
-            <a class="card-link" href="case-studies/watch-this-space.html">
-                <div class="index-card">
-                    <h2>Watch this space!</h2>
-                    <p>You're not going to want to miss this.</p>
-                </div>
-            </a>
+    <nav class="mobile-nav site-nav" id="mobile-nav" aria-label="Mobile primary">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-            <a class="card-link" href="case-studies/seriously-though.html">
-                <div class="index-card">
-                    <h2>Seriously though...</h2>
-                    <p>This is going to be so good.</p>
-                </div>
-            </a>
+    <main class="paper">
+        <div class="container">
+            <h1>Projects</h1>
 
-            <a class="card-link" href="case-studies/one-more-thing.html">
-                <div class="index-card">
-                    <h2>One more thing...</h2>
-                    <p>More projects are on the way. Stay tuned.</p>
-                </div>
-            </a>
+            <div class="cards-grid">
+                <a class="card-link" href="case-studies/under-construction.html">
+                    <article class="index-card">
+                        <h2>Projects coming soon</h2>
+                        <p>I'm actively working on some new showcases. Check back soon.</p>
+                    </article>
+                </a>
+
+                <a class="card-link" href="case-studies/under-construction.html">
+                    <article class="index-card">
+                        <h2>Watch this space</h2>
+                        <p>You're not going to want to miss what's next.</p>
+                    </article>
+                </a>
+
+                <a class="card-link" href="case-studies/under-construction.html">
+                    <article class="index-card">
+                        <h2>Seriously though...</h2>
+                        <p>This is going to be so good.</p>
+                    </article>
+                </a>
+
+                <a class="card-link" href="case-studies/under-construction.html">
+                    <article class="index-card">
+                        <h2>One more thing...</h2>
+                        <p>More projects are on the way. Stay tuned.</p>
+                    </article>
+                </a>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            sidebar.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside (mobile only)
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-
-        // Mark active page in sidebar
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const links = document.querySelectorAll('.sidebar nav ul li a');
-            links.forEach(link => {
-                const linkPage = link.getAttribute('href');
-                if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Make text visible immediately (no animation)
-        document.addEventListener('DOMContentLoaded', () => {
-            const paper = document.querySelector('.paper');
-            if (!paper) return;
-
-            const elements = paper.querySelectorAll('h1, h2, p');
-            elements.forEach(el => {
-                el.style.visibility = 'visible';
-            });
-        });
-    </script>
+    <script src="scripts/navigation.js"></script>
 </body>
 </html>
-

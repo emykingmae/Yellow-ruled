@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Yellow Ruled Paper</title>
+    <title>Home - Justin Thrift</title>
     <link rel="canonical" href="https://justinthrift.design/">
     <script>
-        // Redirect www to non-www
-        if (window.location.hostname.startsWith('www.')) {
-            window.location.replace(window.location.href.replace('www.', ''));
+        if (window.location.hostname.startsWith("www.")) {
+            window.location.replace(window.location.href.replace("www.", ""));
         }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <!-- Hamburger menu button (mobile only) -->
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+<body class="home-page">
+    <header class="site-header">
+        <a class="brand" href="index.html">Justin Thrift</a>
 
-    <!-- Sidebar navigation -->
-    <aside class="sidebar" id="sidebar">
-        <nav>
+        <nav class="desktop-nav site-nav" aria-label="Primary">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="projects.html">Projects</a></li>
@@ -34,218 +27,31 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-    </aside>
 
-    <div class="paper">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="line"></span>
+        </button>
+    </header>
+
+    <nav class="mobile-nav site-nav" id="mobile-nav" aria-label="Mobile primary">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="paper">
         <div class="container">
-            <h2>I'm Justin, a Senior Product Designer at <a href="https://monzo.com/" target="_blank" rel="noopener noreferrer">Monzo</a> in London.</h2>
-            <p>Designer, builder, product owner. Teamwork makes the dream work.</p>
-
-            <div class="cards-stack">
-                <a class="card-link" href="case-studies/project-coming-soon.html">
-                    <div class="index-card">
-                        <h2>Projects coming soon</h2>
-                        <p>I'm actively working on some new showcases. Check back soon!.</p>
-                    </div>
-                </a>
-
-                <a class="card-link" href="case-studies/watch-this-space.html">
-                    <div class="index-card">
-                        <h2>Watch this space!</h2>
-                        <p>You're not going to want to miss this.</p>
-                    </div>
-                </a>
-
-                <a class="card-link" href="case-studies/seriously-though.html">
-                    <div class="index-card">
-                        <h2>Seriously though...</h2>
-                        <p>This is going to be so good.</p>
-                    </div>
-                </a>
+            <div class="home-content">
+                <p>I’m a product designer based in London. Currently I’m on the <a href="https://monzo.com/" target="_blank" rel="noopener noreferrer">Monzo</a> design team.</p>
+                <p>At my core I’m a builder who <span class="rotating-phrase">loves to <span class="rotating-role" id="rotating-role" data-words="create.,tinker.,solve problems.,collaborate.,iterate.,ship.">create.</span></span><br><br>My resume spans fast-paced environments at both startups and global companies.</p>
+                <p>I’m also a nice human and team player.</p>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            sidebar.classList.toggle('active');
-        });
-
-        // Close sidebar when clicking outside (mobile only)
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-
-        // Mark active page in sidebar
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const links = document.querySelectorAll('.sidebar nav ul li a');
-            links.forEach(link => {
-                const linkPage = link.getAttribute('href');
-                if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Typewriter animation for H1, H2, and p elements
-        document.addEventListener('DOMContentLoaded', () => {
-            const paper = document.querySelector('.paper');
-            if (!paper) return;
-
-            const elements = paper.querySelectorAll('.container > h2, .container > p');
-            if (elements.length === 0) return;
-
-            // Calculate total characters (excluding HTML tags)
-            let totalChars = 0;
-            const elementData = [];
-            
-            elements.forEach(el => {
-                // Store original HTML to preserve links
-                const originalHTML = el.innerHTML;
-                const text = el.textContent;
-                const chars = text.length;
-                totalChars += chars;
-                
-                // Parse HTML to find link positions
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = originalHTML;
-                const segments = [];
-                let textIndex = 0;
-                
-                // Walk through the DOM tree to find text and link positions
-                const walkNodes = (node, parentTextIndex) => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        const nodeText = node.textContent;
-                        if (nodeText.trim() || segments.length === 0) {
-                            segments.push({
-                                type: 'text',
-                                text: nodeText,
-                                startIndex: parentTextIndex,
-                                endIndex: parentTextIndex + nodeText.length
-                            });
-                        }
-                        return nodeText.length;
-                    } else if (node.nodeType === Node.ELEMENT_NODE) {
-                        if (node.tagName === 'A') {
-                            const linkText = node.textContent;
-                            segments.push({
-                                type: 'link',
-                                text: linkText,
-                                href: node.getAttribute('href'),
-                                target: node.getAttribute('target'),
-                                rel: node.getAttribute('rel'),
-                                startIndex: parentTextIndex,
-                                endIndex: parentTextIndex + linkText.length
-                            });
-                            return linkText.length;
-                        } else {
-                            let childIndex = parentTextIndex;
-                            Array.from(node.childNodes).forEach(child => {
-                                const length = walkNodes(child, childIndex);
-                                childIndex += length;
-                            });
-                            return childIndex - parentTextIndex;
-                        }
-                    }
-                    return 0;
-                };
-                
-                Array.from(tempDiv.childNodes).forEach(child => {
-                    textIndex += walkNodes(child, textIndex);
-                });
-                
-                elementData.push({ 
-                    element: el, 
-                    text: text, 
-                    chars: chars, 
-                    segments: segments 
-                });
-            });
-
-            if (totalChars === 0) return;
-
-            // Calculate delay per character (4000ms total / total characters)
-            const delayPerChar = 4000 / totalChars;
-
-            // Animate each element
-            elementData.forEach(({ element, text, segments }) => {
-                element.style.visibility = 'visible';
-                element.innerHTML = '';
-                
-                let charIndex = 0;
-                let segmentIndex = 0;
-                
-                const typeNext = () => {
-                    if (charIndex >= text.length) return;
-                    
-                    // Get current segment
-                    if (segmentIndex >= segments.length) return;
-                    const segment = segments[segmentIndex];
-                    
-                    // Check if we need to start a new segment
-                    if (charIndex === segment.startIndex) {
-                        if (segment.type === 'link') {
-                            // Create link element
-                            const linkEl = document.createElement('a');
-                            linkEl.href = segment.href;
-                            if (segment.target) linkEl.target = segment.target;
-                            if (segment.rel) linkEl.rel = segment.rel;
-                            element.appendChild(linkEl);
-                            
-                            // Type link text character by character
-                            let linkCharIndex = 0;
-                            const typeLinkChar = () => {
-                                if (linkCharIndex < segment.text.length) {
-                                    linkEl.textContent += segment.text[linkCharIndex];
-                                    linkCharIndex++;
-                                    charIndex++;
-                                    setTimeout(typeLinkChar, delayPerChar);
-                                } else {
-                                    segmentIndex++;
-                                    setTimeout(typeNext, delayPerChar);
-                                }
-                            };
-                            typeLinkChar();
-                        } else {
-                            // Create text node for regular text
-                            const textNode = document.createTextNode('');
-                            element.appendChild(textNode);
-                            
-                            // Type text character by character
-                            let textCharIndex = 0;
-                            const typeTextChar = () => {
-                                if (textCharIndex < segment.text.length) {
-                                    textNode.textContent += segment.text[textCharIndex];
-                                    textCharIndex++;
-                                    charIndex++;
-                                    setTimeout(typeTextChar, delayPerChar);
-                                } else {
-                                    segmentIndex++;
-                                    setTimeout(typeNext, delayPerChar);
-                                }
-                            };
-                            typeTextChar();
-                        }
-                    } else {
-                        // Shouldn't happen, but safety check
-                        charIndex++;
-                        setTimeout(typeNext, delayPerChar);
-                    }
-                };
-                
-                typeNext();
-            });
-        });
-    </script>
+    <script src="scripts/navigation.js"></script>
 </body>
 </html>
