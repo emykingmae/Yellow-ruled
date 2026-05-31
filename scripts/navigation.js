@@ -53,15 +53,44 @@
 
     const rotatingRole = document.getElementById("rotating-role");
     if (rotatingRole) {
+        const lockRotatingRoleWidth = (items) => {
+            if (!items.length) return;
+
+            const measurement = document.createElement("span");
+            const computed = window.getComputedStyle(rotatingRole);
+            measurement.style.position = "absolute";
+            measurement.style.visibility = "hidden";
+            measurement.style.whiteSpace = "nowrap";
+            measurement.style.fontFamily = computed.fontFamily;
+            measurement.style.fontSize = computed.fontSize;
+            measurement.style.fontWeight = computed.fontWeight;
+            measurement.style.fontStyle = computed.fontStyle;
+            measurement.style.letterSpacing = computed.letterSpacing;
+            measurement.style.textTransform = computed.textTransform;
+            measurement.style.lineHeight = computed.lineHeight;
+            document.body.appendChild(measurement);
+
+            let widest = 0;
+            items.forEach((item) => {
+                measurement.textContent = item;
+                widest = Math.max(widest, measurement.getBoundingClientRect().width);
+            });
+
+            measurement.remove();
+            rotatingRole.style.minWidth = `${Math.ceil(widest)}px`;
+        };
+
         const mobileWords = rotatingRole.getAttribute("data-words-mobile") || "";
         const desktopWords = rotatingRole.getAttribute("data-words") || "";
-        const rawWords = window.matchMedia("(max-width: 560px)").matches && mobileWords
+        const rawWords = window.matchMedia("(max-width: 768px)").matches && mobileWords
             ? mobileWords
             : desktopWords;
         const words = rawWords
             .split(",")
             .map((word) => word.trim())
             .filter(Boolean);
+
+        lockRotatingRoleWidth(words);
 
         if (words.length > 1) {
             let wordIndex = 0;
